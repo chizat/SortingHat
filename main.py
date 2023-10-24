@@ -13,13 +13,13 @@ validation_sec = 5
 
 def connect_wimote():
 	try:
-		print 'Press 1 + 2 on your Wii Remote now ...'
+		print('Press 1 + 2 on your Wii Remote now ...')
 		time.sleep(1)
-  		wiimote = cwiid.Wiimote()
+		wiimote = cwiid.Wiimote()
 	except RuntimeError:
 		return connect_wimote()
 
-	print 'Wii Remote connected...\n'
+	print('Wii Remote connected...\n')
 	wiimote.led = 6
 	wiimote.rpt_mode = cwiid.RPT_BTN
 	return wiimote
@@ -29,7 +29,7 @@ def validate_connection(wiimote):
 		wiimote.request_status()
 		return wiimote
 	except RuntimeError:
-		print "Disconnected - reconnecting"
+		print("Disconnected - reconnecting")
 		wiimote = connect_wimote()
 	return wiimote
 
@@ -64,34 +64,34 @@ thinking = "think.wav"
 used_sec = 0
 
 while True:
-  sec = time.localtime(time.time()).tm_sec
-  if(sec % validation_sec == 0 and sec != used_sec):
-	wii = validate_connection(wii)
-	used_sec = sec
+	sec = time.localtime(time.time()).tm_sec
+	if(sec % validation_sec == 0 and sec != used_sec):
+		wii = validate_connection(wii)
+		used_sec = sec
 	
-  buttons = wii.state['buttons']
+	buttons = wii.state['buttons']
 
-  if (buttons & cwiid.BTN_PLUS):
-    play_wav(thinking_prefix + thinking)
+	if (buttons & cwiid.BTN_PLUS):
+		play_wav(thinking_prefix + thinking)
 
-  if (buttons & cwiid.BTN_B):
-    play_wav(thinking_prefix + random.choice(song))
+	if (buttons & cwiid.BTN_B):
+		play_wav(thinking_prefix + random.choice(song))
 
-  if (buttons & cwiid.BTN_A):
-    play_wav(prefix + random.choice(schools))
-  
-  if (buttons & cwiid.BTN_DOWN):
-    play_wav(prefix + schools[1])
-  
-  if (buttons & cwiid.BTN_RIGHT):
-    play_wav(prefix + schools[2])
-  
-  if (buttons & cwiid.BTN_LEFT):
-    play_wav(prefix + schools[3])
-  
-  if (buttons & cwiid.BTN_UP):
-    play_wav(prefix + schools[0])
+	if (buttons & cwiid.BTN_A):
+		play_wav(prefix + random.choice(schools))
 
-  if (buttons & cwiid.BTN_MINUS):
-    mixer.music.stop()
+	if (buttons & cwiid.BTN_DOWN):
+		play_wav(prefix + schools[1])
+
+	if (buttons & cwiid.BTN_RIGHT):
+		play_wav(prefix + schools[2])
+
+	if (buttons & cwiid.BTN_LEFT):
+		play_wav(prefix + schools[3])
+
+	if (buttons & cwiid.BTN_UP):
+		play_wav(prefix + schools[0])
+
+	if (buttons & cwiid.BTN_MINUS):
+		mixer.music.stop()
 
